@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Test</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+    <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+    <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+    <script type="text/babel">
+        window.onload = function()
+        {
+            var rest = document.getElementById('rest_time');
+            var form1 = document.getElementById('form1');
+            var submit = document.getElementById('submit');
+            var butt = document.getElementById('butt');
+            var pause = document.getElementById('pause');
+            var mark = document.getElementById('mark');
+            var is_count = 0;
+            var control;
+
+            butt.disabled = 'disabled';
+            pause.disabled = 'disabled';
+
+            function closure(t)
+            {
+                console.log(t);
+                return function ret() {
+                    console.log(t);
+                    ReactDOM.render(<p>剩余 {parseInt(t, 10)} 秒</p>, rest);
+                    t--;
+                    if (t < 0 || is_count === 0)
+                    {
+                        clearTimeout(ret);
+                        t = 0;
+                        submit.removeAttribute('disabled');
+                        butt.disabled = 'disabled';
+                        pause.disabled = 'disabled';
+                        pause.innerHTML = '暂停';
+                        ReactDOM.render(<p>剩余 {parseInt(t, 10)} 秒</p>, rest);
+                        return ;
+                    }
+                    else if (is_count === 1)
+                        clearTimeout(ret);
+                    else
+                        setTimeout(ret, 1000);
+                };
+            }
+
+            form1.onsubmit = function()
+            {
+                const t = document.getElementById('cnt_down').value;
+                if (t == null || t <= 0)
+                    mark.innerHTML = '输入错误！';
+                else
+                {
+                    mark.innerHTML = '';
+                    is_count = 2;
+                    document.getElementById('cnt_down').value = '';
+                    control = closure(t);
+                    control();
+                    submit.disabled = 'disabled';
+                    pause.removeAttribute('disabled');
+                    butt.removeAttribute('disabled');
+                }
+                return false;
+            };
+
+            butt.onclick = function()
+            {
+                is_count = 0;
+                control();
+            };
+            pause.onclick = function()
+            {
+                if (pause.innerHTML == '暂停')
+                {
+                    pause.innerHTML = '继续';
+                    is_count = 1;
+                }
+                else
+                {
+                    pause.innerHTML = '暂停';
+                    is_count = 2;
+                    control();
+                }
+            };
+        };
+    </script>
+</head>
+<body>
+    <h1>简易 React 倒计时器</h1>
+    <form id="form1" action="" method="POST">
+        设置倒计时时间：<input id="cnt_down" type="text" /> <span id="mark" style="color:red;"></span>
+        <br><br>
+        <input id="submit" type="submit" value="开始倒计时" />
+    </form>
+    <br>
+    <button id="pause">暂停</button>
+    <button id="butt">停止</button>
+    <div id="rest_time"><p>剩余 0 秒</p></div>
+</body>
+</html>
