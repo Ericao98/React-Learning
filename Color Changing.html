@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            .clrRed { color: red; }
+            .clrBlue { color: blue; }
+        </style>
+        <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+        <script type="text/babel">
+            class ColorChanging extends React.Component
+            {
+                constructor(props)
+                {
+                    super(props);
+                    this.state = {name: "clrRed"};
+                }
+                componentDidMount()
+                {
+                    this.timerID = setInterval(
+                        () => this.tick(),
+                        500
+                    );
+                }
+                componentWillUnmount()
+                {
+                    clearInterval(this.timerID);
+                }
+                tick()
+                {
+                    this.setState({name: (this.state.name == 'clrRed' ? 'clrBlue' : 'clrRed')});
+                }
+                render()
+                {
+                    return (
+                        <div className={this.state.name}>
+                            I am {this.state.name.substring(3)}!
+                        </div>
+                    );
+                }
+            };
+            ReactDOM.render(
+                <ColorChanging />,
+                document.getElementById('root')
+            );
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
