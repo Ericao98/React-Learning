@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+        <script type="text/babel">
+            class Toggle extends React.Component
+            {
+                constructor(props)
+                {
+                    super(props);
+                    this.state = {toggle: true};
+
+                    /*****
+                     mark: this code is required! Otherwise, when calling onClick, there's nothing referring to 'this'.
+                    *****/
+                    this.handleEvent = this.handleEvent.bind(this);
+                }
+                handleEvent()
+                {
+                    /*****
+                     mark: this.setState() is asynchronous!
+                    console.log('After: ' + this.state.toggle);
+                    *****/
+                    document.getElementById('mark').innerHTML = "I am " + (this.state.toggle ? 'ON' : 'OFF') + "!";
+                    console.log(this.state.toggle ? 'gray' : 'green');
+                    document.getElementById('mark').style.color = (this.state.toggle ? 'lightblue' : 'gray');
+
+                    this.setState(prevState => ({toggle: !prevState.toggle}));
+                }
+                render()
+                {
+                    return (
+                        <button onClick={this.handleEvent}>
+                            state: {this.state.toggle ? 'ON' : 'OFF'}
+                        </button>
+                    );
+                }
+            };
+            ReactDOM.render(
+                <Toggle />,
+                document.getElementById('root')
+            );
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <div id="mark" style="color:gray;">I am OFF!</div>
+    </body>
+</html>
