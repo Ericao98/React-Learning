@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+        <script type="text/babel">
+            function Blog(props)
+            {
+                return (
+                    <div>
+                        <ul>
+                            {
+                                props.posts.map((post) => <li key={post.id}>{post.title}</li>)
+                            }
+                        </ul>
+                        <hr />
+                        {
+                            props.posts.map((post) =>
+                                <div key={post.id}>
+                                    <h3>{post.title}</h3>
+                                    <p>{post.content}</p>
+                                </div>
+                            )
+                        }
+                    </div>
+                );
+            }
+
+            const posts = [{id: 1, title: 'Hello World!', content: 'Welcome to React!'}, {id: 2, title: 'Good Morning', content: 'It\'s time to learn React!'}, {id: 3, title: 'Good night', content: 'Go to bed. Good night!'}];
+            ReactDOM.render(
+                <Blog posts={posts} />,
+                document.getElementById('root')
+            );
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
