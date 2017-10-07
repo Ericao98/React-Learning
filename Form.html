@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+        <script type="text/babel">
+            class NameForm extends React.Component
+            {
+                constructor(props)
+                {
+                    super(props);
+                    this.state = {name: '', gender: 'male', phone: '', mail: ''};
+                    this.handleSubmit = this.handleSubmit.bind(this);
+                    this.handleChange = this.handleChange.bind(this);
+                }
+                handleSubmit(e)
+                {
+                    confirm(
+                        'Please confirm your information again: \n\n' +
+                        'Name: ' + this.state.name + '\n' + 
+                        'Gender: ' + this.state.gender + '\n' +
+                        'Phone: ' + this.state.phone + '\n'
+                    );
+                    e.preventDefault();
+                }
+                handleChange(e)
+                {
+                    this.setState({[e.target.name]: e.target.value});
+                }
+                render()
+                {
+                    return (
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                            </label>
+                            <br />
+                            <label>
+                                Gender: 
+                                <input type="radio" name="gender" value="male" onChange={this.handleChange} />Male
+                                <input type="radio" name="gender" value="female" onChange={this.handleChange} />Female
+                            </label>
+                            <br />
+                            <label>
+                                Phone: <input type="text" name="phone" value={this.state.phone} onChange={this.handleChange} />
+                            </label>
+                            <br /><br />
+                            <input type="submit" />
+                        </form>
+                    );
+                };
+            };
+            ReactDOM.render(
+                <NameForm />,
+                document.getElementById('root')
+            );
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
