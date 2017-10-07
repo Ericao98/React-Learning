@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script type="text/javascript" src="../react-demos-master/build/react.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/react-dom.js"></script>
+        <script type="text/javascript" src="../react-demos-master/build/browser.min.js"></script>
+        <script type="text/babel">
+            function toCelsius(fahrenheit)
+            {
+                return Math.round((fahrenheit - 32) * 5 / 9 * 1000) / 1000;
+            }
+            function toFahrenheit(celsius)
+            {
+                return Math.round((celsius * 9 / 5 + 32) * 1000) / 1000;
+            }
+
+            class Calculator extends React.Component
+            {
+                constructor(props)
+                {
+                    super(props);
+                    this.state = {temperature: ''};
+                    this.handleChange = this.handleChange.bind(this);
+                }
+                handleChange(e)
+                {
+                    console.log(e.target.id);
+                    if (e.target.id === 'celsius')
+                        this.setState({temperature: e.target.value});
+                    else if (e.target.id === 'fahrenheit')
+                        this.setState({temperature: toCelsius(e.target.value)});
+                }
+                render()
+                {
+                    const temperature = this.state.temperature;
+                    return (
+                        <div>
+                            <fieldset>
+                                <legend>Enter temperature in Celsius</legend>
+                                <input id="celsius" type="text" value={temperature} onChange={this.handleChange} />C
+                            </fieldset>
+                            <fieldset>
+                                <legend>Enter temperature in Fahrenheit</legend>
+                                <input id="fahrenheit" type="text" value={toFahrenheit(temperature)} onChange={this.handleChange} />F
+                            </fieldset>
+                        </div>
+                    )
+                }
+            };
+
+            ReactDOM.render(
+                <Calculator />,
+                document.getElementById('root')
+            );
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+</html>
